@@ -1,7 +1,33 @@
 [project]
 name = "imagenet-classification-with-deep-cnn"
 version = "0.1.0"
-description = "Add your description here"
+description = "Deep CNN models for image classification (PyTorch, TensorFlow, Hugging Face)"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+
+dependencies = [
+  "torch",
+  "torchvision",
+  "torchaudio",
+  "tensorflow",
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "matplotlib",
+  "Pillow",
+  "opencv-python",
+  "tqdm",
+  "albumentations",
+  "transformers",
+  "datasets",
+  "huggingface_hub",
+  "pyyaml",
+  "python-dotenv"
+]
+
+[tool.uv]
+# Use uv for environment + dependency management
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
