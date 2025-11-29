@@ -1,0 +1,15 @@
+dataset:
+  name: "alessiocorrado99/animals10"
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  image_size: [128, 128]
+  split_ratios:
+    train: 0.8
+    val: 0.1
+    test: 0.1
+  seed: 42
+
+training:
+  batch_size: 32
+  epochs: 10
+  learning_rate: 0.001
