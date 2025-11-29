@@ -42,17 +42,29 @@ def preprocess_data():
     # Simple heuristic to find class folders
     # We look for directories that contain images
 
-    class_dirs = []
-    for root, dirs, files in os.walk(RAW_DATA_DIR):
-        # If this directory contains images, and its parent is not the raw dir itself (unless flat structure)
-        # Actually, let's just look for subdirectories in RAW_DATA_DIR that are not hidden
-        # But Animals-10 might be nested.
-        # Let's just find all directories that contain images.
+    # Translation map for Animals-10 (Italian -> English)
+    translation_map = {
+        "cane": "dog",
+        "cavallo": "horse",
+        "elefante": "elephant",
+        "farfalla": "butterfly",
+        "gallina": "chicken",
+        "gatto": "cat",
+        "mucca": "cow",
+        "pecora": "sheep",
+        "ragno": "spider",
+        "scoiattolo": "squirrel"
+    }
 
+    class_dirs = []
+    # Look specifically in raw-img if it exists
+    search_dir = RAW_DATA_DIR / "raw-img"
+    if not search_dir.exists():
+        search_dir = RAW_DATA_DIR
+
+    for root, dirs, files in os.walk(search_dir):
         has_images = any(f.lower().endswith(('.png', '.jpg', '.jpeg')) for f in files)
         if has_images:
-            # Check if it's a leaf node (class folder)
-            # We treat the folder name as the class name
             class_dirs.append(Path(root))
 
     if not class_dirs:
@@ -68,7 +80,12 @@ def preprocess_data():
     summary = {"classes": [], "counts": {"train": 0, "val": 0, "test": 0}}
 
     for class_dir in class_dirs:
-        class_name = class_dir.name
+        original_name = class_dir.name
+        class_name = translation_map.get(original_name, original_name)
+
+        if class_name != original_name:
+            logger.info(f"Translating {original_name} -> {class_name}")
+
         summary["classes"].append(class_name)
 
         images = [f for f in os.listdir(class_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
