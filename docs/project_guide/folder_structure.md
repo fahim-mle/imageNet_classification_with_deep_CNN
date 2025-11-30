@@ -4,12 +4,12 @@ This document outlines the complete folder structure of the ImageNet Classificat
 
 ## Root Directory Structure
 
-```
+```txt
 imageNet_classification_with_deep_CNN/
-├── .gitignore                    # Git ignore file
-├── .python-version              # Python version specification
-├── GEMINI.md                    # Project documentation
-├── main.py                      # Main entry point
+├── .gitignore                  # Git ignore file
+├── .python-version             # Python version specification
+├── GEMINI.md                   # Project documentation
+├── main.py                     # Main entry point
 ├── pyproject.toml              # Python project configuration
 ├── README.md                   # Project README
 ├── uv.lock                     # Dependency lock file
@@ -26,7 +26,7 @@ imageNet_classification_with_deep_CNN/
 
 ### `/configs/` - Configuration Files
 
-```
+```txt
 configs/
 ├── .gitkeep                    # Keeps directory in git
 └── base.yaml                   # Base configuration
@@ -34,9 +34,9 @@ configs/
 
 ### `/data/` - Data Directory
 
-```
+```txt
 data/
-├── raw/                        # Raw data files
+├── raw/                       # Raw data files
 │   ├── .gitkeep
 │   ├── translate.py           # Translation utility script
 │   └── raw-img/               # Raw image files
@@ -52,7 +52,7 @@ data/
 │       └── scoiattolo/
 └── processed/                 # Processed dataset
     ├── .gitkeep
-    ├── data_summary.json     # Dataset summary information
+    ├── data_summary.json      # Dataset summary information
     ├── test/                  # Test split
     │   ├── butterfly/
     │   ├── cat/
@@ -90,10 +90,10 @@ data/
 
 ### `/docs/` - Documentation
 
-```
+```txt
 docs/
 ├── .gitkeep                    # Keeps directory in git
-├── instructions/              # Setup and usage instructions
+├── instructions/               # Setup and usage instructions
 │   └── general-setup-before-PyTorch.md
 ├── project_guide/              # Project guides
 │   └── folder_structure.md     # This file
@@ -103,14 +103,14 @@ docs/
 
 ### `/models/` - Model Files
 
-```
+```txt
 models/
 └── .gitkeep                    # Keeps directory in git
 ```
 
 ### `/outputs/` - Output Files
 
-```
+```txt
 outputs/
 ├── logs/                       # Training and execution logs
 │   └── .gitkeep
@@ -122,24 +122,24 @@ outputs/
 
 ### `/scripts/` - Utility Scripts
 
-```
+```txt
 scripts/
-├── .gitkeep                    # Keeps directory in git
+├── .gitkeep                   # Keeps directory in git
 ├── download_data.py           # Data downloading script
 └── preprocess_data.py         # Data preprocessing script
 ```
 
 ### `/src/` - Source Code
 
-```
+```txt
 src/
-├── common/                     # Common utilities
+├── common/                    # Common utilities
 │   ├── .gitkeep
 │   ├── paths.py               # Path configurations
 │   └── utils.py               # Utility functions
-├── experiments/                # Experiment code
+├── experiments/               # Experiment code
 │   └── .gitkeep
-└── tests/                      # Test files
+└── tests/                     # Test files
     └── .gitkeep
 ```
 
