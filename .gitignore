@@ -209,3 +209,11 @@ __marimo__/
 
 # Source Materials
 source_material/
+
+# data
+data/*
+!data/.gitkeep
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
