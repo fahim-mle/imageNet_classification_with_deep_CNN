@@ -1,0 +1,25 @@
+framework: "tensorflow"
+
+dataset:
+  image_size: [128, 128]     # override allowed
+  shuffle_buffer: 2000
+  num_parallel_calls: "auto"
+
+training:
+  batch_size: 32
+  epochs: 10
+  learning_rate: 0.001
+  mixed_precision: true
+
+model:
+  architecture: "resnet50"   # placeholder
+  pretrained: true
+  num_classes: 10
+
+optimizer:
+  name: "adam"
+  weight_decay: 0.0001
+
+logging:
+  save_dir: "outputs/tf_logs"
+  checkpoint_dir: "models/tf"
