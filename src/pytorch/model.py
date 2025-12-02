@@ -4,13 +4,19 @@ from torchvision import models
 
 def create_model(cfg):
     """
-    Creates and returns the model based on configuration.
-
-    Args:
-        cfg (dict): Configuration dictionary.
-
+    Builds a torchvision classification model from configuration and moves it to the available device (CUDA > MPS > CPU).
+    
+    Parameters:
+        cfg (dict): Configuration dictionary. Expected keys:
+            - model.name (str): Model identifier (currently supports "resnet18").
+            - model.pretrained (bool): Whether to load pretrained weights.
+            - model.num_classes (int, optional): Number of output classes; defaults to 10 if omitted.
+    
     Returns:
-        model: PyTorch model.
+        torch.nn.Module: The constructed model with its final classification layer adjusted to `num_classes` and moved to the selected device.
+    
+    Raises:
+        ValueError: If `model.name` is not supported.
     """
     model_name = cfg['model']['name']
     pretrained = cfg['model']['pretrained']
