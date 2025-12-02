@@ -38,8 +38,15 @@ def main():
 
         if args.eval:
             print("Starting TensorFlow Evaluation...")
-            # Placeholder for eval
-            pass
+            from src.common.paths import MODELS_DIR
+            from src.tensorflow.eval import evaluate_model
+
+            # Default to best model
+            model_path = os.path.join(MODELS_DIR, "tf", "best_model.keras")
+            if os.path.exists(model_path):
+                evaluate_model(cfg, model_path)
+            else:
+                print(f"No model found at {model_path}. Please train first.")
 
     else:
         print(f"Framework {args.framework} not implemented yet.")
