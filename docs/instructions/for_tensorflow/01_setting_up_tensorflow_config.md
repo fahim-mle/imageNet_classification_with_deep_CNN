@@ -1,17 +1,5 @@
 # TensorFlow Core Phase 1 - Project-Aware Instruction Set
 
-*(based on your current project structure)*
-
-## 🟧 TASK 0 — New Branch
-
-Create new branch:
-
-```bash
-git checkout -b feature/tf-core
-```
-
-This branch must contain all TF-specific files.
-
 ## 🟧 TASK 1 — Add TensorFlow Config File
 
 Create: `configs/tensorflow.yaml`
