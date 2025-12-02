@@ -18,7 +18,28 @@ The main goal is to understand architectural differences, training behavior, and
 
 ## Training
 
-(placeholder)
+### PyTorch Implementation
+
+To run the PyTorch pipeline, use the following commands:
+
+**Training:**
+```bash
+uv run python main.py --framework pytorch --train
+```
+
+**Evaluation:**
+```bash
+uv run python main.py --framework pytorch --eval
+```
+
+This will:
+1. Load the configuration from `configs/pytorch.yaml`.
+2. Execute the requested mode (train or eval).
+3. Save logs to `outputs/logs/` and artifacts to `outputs/metrics/` (for eval).
+
+### Configuration
+
+You can modify training parameters in `configs/pytorch.yaml`.
 
 ## Evaluation
 

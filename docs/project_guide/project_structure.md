@@ -1,25 +1,26 @@
-# Project Folder Structure
+# Project Structure
 
-This document outlines the complete folder structure of the ImageNet Classification with Deep CNN project.
+This document outlines the complete project structure (files and folders) for ImageNet Classification with Deep CNN.
 
 ## Root Directory Structure
 
 ```txt
 imageNet_classification_with_deep_CNN/
+├── .env                        # Environment variables (local)
 ├── .gitignore                  # Git ignore file
 ├── .python-version             # Python version specification
 ├── GEMINI.md                   # Project documentation
+├── README.md                   # Project README
 ├── main.py                     # Main entry point
 ├── pyproject.toml              # Python project configuration
-├── README.md                   # Project README
 ├── uv.lock                     # Dependency lock file
 ├── configs/                    # Configuration files
 ├── data/                       # Data directory
 ├── docs/                       # Documentation
-├── models/                     # Model files
-├── outputs/                    # Output files
+├── models/                     # Model files and checkpoints
+├── outputs/                    # Output files (logs, metrics, predictions)
 ├── scripts/                    # Utility scripts
-├── src/                        # Source code
+└── src/                        # Source code
 ```
 
 ## Detailed Structure
@@ -29,7 +30,8 @@ imageNet_classification_with_deep_CNN/
 ```txt
 configs/
 ├── .gitkeep                    # Keeps directory in git
-└── base.yaml                   # Base configuration
+├── base.yaml                   # Base configuration
+└── pytorch.yaml                # PyTorch experiment/training configuration
 ```
 
 ### `/data/` - Data Directory
@@ -39,8 +41,8 @@ data/
 ├── raw/                       # Raw data files
 │   ├── .gitkeep
 │   ├── translate.py           # Translation utility script
-│   └── raw-img/               # Raw image files
-│       ├── cane/              # Italian category names
+│   └── raw-img/               # Raw image files (Italian category names)
+│       ├── cane/
 │       ├── cavallo/
 │       ├── elefante/
 │       ├── farfalla/
@@ -50,7 +52,7 @@ data/
 │       ├── pecora/
 │       ├── ragno/
 │       └── scoiattolo/
-└── processed/                 # Processed dataset
+└── processed/                 # Processed dataset (English category names)
     ├── .gitkeep
     ├── data_summary.json      # Dataset summary information
     ├── test/                  # Test split
@@ -94,18 +96,27 @@ data/
 docs/
 ├── .gitkeep                    # Keeps directory in git
 ├── instructions/               # Setup and usage instructions
-│   └── general-setup-before-PyTorch.md
+│   ├── general-setup-before-PyTorch.md
+│   └── for_PyTorch/
+│       ├── 01_PyTorch_core_implementation.md
+│       └── 02_PyTorch_model_eval_and_metrics_logging.md
 ├── project_guide/              # Project guides
-│   └── folder_structure.md     # This file
-└── project_progress/           # Project progress tracking
-    └── phase-0-project-setup-&-data-pre-processing.md
+│   └── project_structure.md    # This file
+├── project_progress/           # Project progress tracking
+│   ├── phase-0-project-setup-&-data-pre-processing.md
+│   └── progress.md
+└── troubleshooting/            # Troubleshooting references
+    └── cuda_issues.md
 ```
 
 ### `/models/` - Model Files
 
 ```txt
 models/
-└── .gitkeep                    # Keeps directory in git
+├── .gitkeep                    # Keeps directory in git
+└── pytorch/                    # Saved PyTorch model checkpoints
+    ├── best_model.pt
+    └── last_model.pt
 ```
 
 ### `/outputs/` - Output Files
@@ -113,9 +124,18 @@ models/
 ```txt
 outputs/
 ├── logs/                       # Training and execution logs
-│   └── .gitkeep
+│   ├── .gitkeep
+│   ├── download_data.log
+│   ├── preprocess_data.log
+│   ├── eval_20251203-002049.log
+│   └── 2025*/train.log         # Multiple timestamped training logs
 ├── metrics/                    # Performance metrics
-│   └── .gitkeep
+│   ├── .gitkeep
+│   └── eval_20251203-002049/
+│       ├── best_model_confusion_matrix.png
+│       ├── best_model_metrics.json
+│       ├── last_model_confusion_matrix.png
+│       └── last_model_metrics.json
 └── predictions/                # Model predictions
     └── .gitkeep
 ```
@@ -125,8 +145,12 @@ outputs/
 ```txt
 scripts/
 ├── .gitkeep                   # Keeps directory in git
+├── __init__.py                # Package marker
 ├── download_data.py           # Data downloading script
-└── preprocess_data.py         # Data preprocessing script
+├── preprocess_data.py         # Data preprocessing script
+└── pytorch/                   # PyTorch script entrypoints
+    ├── __init__.py
+    └── run_eval.py
 ```
 
 ### `/src/` - Source Code
@@ -139,6 +163,13 @@ src/
 │   └── utils.py               # Utility functions
 ├── experiments/               # Experiment code
 │   └── .gitkeep
+├── pytorch/                   # PyTorch training/eval pipeline
+│   ├── __pycache__/           # Bytecode cache
+│   ├── data.py
+│   ├── eval.py
+│   ├── model.py
+│   ├── train.py
+│   └── transforms.py
 └── tests/                     # Test files
     └── .gitkeep
 ```
@@ -157,9 +188,9 @@ src/
 
 ## Notes
 
-- `.gitkeep` files are used to maintain empty directories in version control
-- The `.venv` directory is excluded as it contains virtual environment files
-- The `source_material` directory is excluded as per project requirements
-- The `data/` directory contains both raw images (with Italian category names) and processed dataset splits
-- Processed data is organized into train/test/validation splits with English category names
-- All other directories and files are included in this structure documentation
+- `.gitkeep` files are used to maintain empty directories in version control.
+- The `.venv` directory is excluded from commits (local virtual environment).
+- The `source_material` directory contains reference papers/assignments.
+- The `data/` directory contains both raw images (Italian labels) and processed splits (English labels).
+- Processed data is organized into train/test/validation splits by class.
+- All other directories and files are included in this structure documentation.
