@@ -1,0 +1,12 @@
+framework: pytorch
+model:
+  name: resnet18
+  pretrained: true
+optimizer:
+  name: adam
+  weight_decay: 1e-4
+loss:
+  name: cross_entropy
+training:
+  batch_size: 32
+  epochs: 10
