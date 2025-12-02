@@ -1,7 +1,6 @@
 import argparse
 import sys
 from src.common.utils import load_config
-import os
 
 def main():
     parser = argparse.ArgumentParser(description="ImageNet Classification with Deep CNNs")

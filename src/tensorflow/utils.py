@@ -1,18 +1,19 @@
 import os
 import logging
 import tensorflow as tf
+# Disable XLA to prevent CUDA_ERROR_UNSUPPORTED_PTX_VERSION
+os.environ['TF_XLA_FLAGS'] = '--tf_xla_enable_xla_devices=false'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' # Reduce logging clutter
+
 from src.common.utils import load_config
 from src.common.paths import OUTPUTS_DIR, MODELS_DIR
 
 def setup_device():
     """
-    Detect GPU via tf.config.list_physical_devices()
-    Return "GPU" or "CPU"
-    No training logic
+    Return "CPU" explicitly.
     """
-    gpus = tf.config.list_physical_devices('GPU')
-    if gpus:
-        return "GPU"
+    # Force CPU usage
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
     return "CPU"
 
 def setup_logging(cfg):

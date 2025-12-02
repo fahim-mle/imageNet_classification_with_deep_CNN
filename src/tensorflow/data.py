@@ -50,7 +50,12 @@ def prepare_tf_dataset(ds, cfg, training=False):
 
     batch_size = cfg['training']['batch_size']
     shuffle_buffer = cfg['dataset']['shuffle_buffer']
-    autotune = tf.data.AUTOTUNE
+
+    num_parallel_calls = cfg['dataset'].get('num_parallel_calls', 'auto')
+    if num_parallel_calls == 'auto':
+        autotune = tf.data.AUTOTUNE
+    else:
+        autotune = int(num_parallel_calls)
 
     preprocess_fn = get_image_transforms(cfg)
 
