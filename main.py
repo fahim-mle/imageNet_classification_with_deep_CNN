@@ -28,6 +28,19 @@ def main():
             print("No mode selected. Use --train or --eval.")
             parser.print_help()
 
+    elif args.framework == "tensorflow":
+        cfg = load_config("configs/tensorflow.yaml")
+
+        if args.train:
+            print("Starting TensorFlow Training...")
+            from src.tensorflow.train import train_model
+            train_model(cfg)
+
+        if args.eval:
+            print("Starting TensorFlow Evaluation...")
+            # Placeholder for eval
+            pass
+
     else:
         print(f"Framework {args.framework} not implemented yet.")
 
