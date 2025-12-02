@@ -23,7 +23,8 @@ dependencies = [
   "huggingface_hub",
   "pyyaml",
   "python-dotenv",
-  "kaggle"
+  "kaggle",
+  "seaborn"
 ]
 
 [build-system]

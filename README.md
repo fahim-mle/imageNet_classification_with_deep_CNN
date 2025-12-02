@@ -20,17 +20,22 @@ The main goal is to understand architectural differences, training behavior, and
 
 ### PyTorch Implementation
 
-To run the PyTorch training pipeline:
+To run the PyTorch pipeline, use the following commands:
 
+**Training:**
 ```bash
-uv run python main.py
+uv run python main.py --framework pytorch --train
+```
+
+**Evaluation:**
+```bash
+uv run python main.py --framework pytorch --eval
 ```
 
 This will:
 1. Load the configuration from `configs/pytorch.yaml`.
-2. Download the ResNet18 model (if not already cached).
-3. Train the model on the "Animals-10" dataset.
-4. Save logs to `outputs/logs/` and checkpoints to `models/pytorch/`.
+2. Execute the requested mode (train or eval).
+3. Save logs to `outputs/logs/` and artifacts to `outputs/metrics/` (for eval).
 
 ### Configuration
 
