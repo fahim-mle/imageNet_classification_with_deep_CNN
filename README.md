@@ -65,7 +65,16 @@ You can modify training parameters in `configs/tensorflow.yaml`. The current def
 
 ## Evaluation
 
-(placeholder)
+To evaluate all trained models (PyTorch ResNet18, Baseline CNN, and TensorFlow MobileNetV2), run:
+
+```bash
+python scripts/evaluate_all_models.py
+```
+
+This script will:
+1. Load each model from `checkpoints/`.
+2. Evaluate on Train, Val, and Test splits.
+3. Generate metrics (JSON), plots (PNG), and predictions (CSV) in `outputs/`.
 
 ## Models
 

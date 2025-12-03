@@ -27,7 +27,7 @@ For PyTorch ResNet18, TensorFlow MobileNetV2, and Baseline CNN:
 Save metrics under:
 
 ```
-outputs/metrics/eval_<timestamp>/
+outputs/metrics/<model_name>_eval_<timestamp>/
     <model_name>_metrics.json
     <model_name>_confusion_matrix.png
 ```
@@ -41,7 +41,7 @@ outputs/metrics/eval_<timestamp>/
 All plots go under:
 
 ```
-outputs/figures/eval_<timestamp>/
+outputs/figures/<model_name>_eval_<timestamp>/
 ```
 
 #### Plots to generate
@@ -82,7 +82,7 @@ outputs/predictions/
 All eval operations must emit a log file under:
 
 ```
-outputs/logs/eval_<timestamp>.log
+outputs/logs/<model_name>_eval_<timestamp>.log
 ```
 
 ---
@@ -93,3 +93,7 @@ outputs/logs/eval_<timestamp>.log
 - Maintain consistency across all model evaluations
 - Ensure timestamped outputs for traceability
 - Use standardized naming conventions for all output files
+
+## Implementation Status
+
+✅ **Implemented**: `scripts/evaluate_all_models.py` handles all the above steps.
