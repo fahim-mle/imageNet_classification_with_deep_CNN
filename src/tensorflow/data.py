@@ -21,7 +21,7 @@ def load_dataset(cfg):
             print(f"Warning: Directory {directory} not found.")
             return None
 
-        return tf.keras.preprocessing.image_dataset_from_directory(
+        return tf.keras.utils.image_dataset_from_directory(
             directory,
             labels="inferred",
             label_mode="int",
