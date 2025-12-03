@@ -39,19 +39,14 @@ CHECKPOINTS_DIR = os.path.join(os.getcwd(), "checkpoints") # Assuming checkpoint
 # But for now, I'll define them as per instructions.
 
 MODELS_TO_EVALUATE = {
-    "resnet18": {
+    "best_model_pytorch": {
         "framework": "pytorch",
-        "path": os.path.join("checkpoints", "resnet18.pth"),
+        "path": os.path.join(MODELS_DIR, "pytorch", "best_model.pt"),
         "config": "configs/pytorch.yaml"
     },
-    "baseline": {
-        "framework": "pytorch",
-        "path": os.path.join("checkpoints", "baseline.pth"),
-        "config": "configs/pytorch.yaml" # We'll override model name
-    },
-    "mobilenetv2": {
+    "best_model_tensorflow": {
         "framework": "tensorflow",
-        "path": os.path.join("checkpoints", "mobilenetv2"),
+        "path": os.path.join(MODELS_DIR, "tf", "best_model.keras"),
         "config": "configs/tensorflow.yaml"
     }
 }
