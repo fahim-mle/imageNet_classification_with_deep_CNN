@@ -12,7 +12,14 @@ from src.common.paths import OUTPUTS_DIR, MODELS_DIR
 
 def plot_confusion_matrix(cm, class_names, output_path):
     """
-    Plots and saves the confusion matrix.
+    Create and save a confusion matrix heatmap image.
+    
+    Renders the confusion matrix with integer annotations and a blue colormap, labels the axes as True (rows) and Predicted (columns), and writes the figure to the given output path.
+    
+    Parameters:
+        cm (array-like): 2D confusion matrix (integers) where rows are true classes and columns are predicted classes.
+        class_names (Sequence[str]): Labels for the matrix axes in display order.
+        output_path (str or pathlib.Path): File path where the plot image will be saved.
     """
     plt.figure(figsize=(10, 8))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names)
@@ -25,6 +32,11 @@ def plot_confusion_matrix(cm, class_names, output_path):
 
 def main_eval():
     # Setup logging
+    """
+    Orchestrates evaluation of trained PyTorch models on the test dataset and saves per-model metrics and confusion matrix images.
+    
+    Loads configuration, selects the best available device (CUDA, then MPS, then CPU), obtains the test data loader and class names, and evaluates a fixed set of model files (e.g., "best_model.pt" and "last_model.pt") if they exist. For each evaluated model, writes a JSON file with evaluation metrics and a PNG file of the confusion matrix into OUTPUTS_DIR/metrics/eval_{timestamp}. Prints progress messages and skips any missing model files.
+    """
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     setup_eval_logging(timestamp)
 
