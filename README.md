@@ -41,6 +41,28 @@ This will:
 
 You can modify training parameters in `configs/pytorch.yaml`.
 
+### TensorFlow Implementation
+
+To run the TensorFlow pipeline (optimized for CPU with MobileNetV2), use:
+
+**Training:**
+```bash
+./scripts/tensorflow/run.sh main.py --framework tensorflow --train
+```
+
+**Evaluation:**
+```bash
+./scripts/tensorflow/run.sh main.py --framework tensorflow --eval
+```
+
+This will:
+1. Load the configuration from `configs/tensorflow.yaml`.
+2. Execute the requested mode.
+3. Save logs to `outputs/tf_logs/` and models to `models/tf/`.
+
+**Configuration:**
+You can modify training parameters in `configs/tensorflow.yaml`. The current default is optimized for CPU (MobileNetV2, 10 epochs, Batch Size 32).
+
 ## Evaluation
 
 (placeholder)
