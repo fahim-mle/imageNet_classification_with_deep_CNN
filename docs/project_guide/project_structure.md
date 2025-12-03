@@ -1,196 +1,176 @@
 # Project Structure
 
-This document outlines the complete project structure (files and folders) for ImageNet Classification with Deep CNN.
+Current layout of ImageNet Classification with Deep CNN (PyTorch and TensorFlow pipelines).
 
-## Root Directory Structure
+## Top-level layout
 
 ```txt
 imageNet_classification_with_deep_CNN/
-├── .env                        # Environment variables (local)
-├── .gitignore                  # Git ignore file
-├── .python-version             # Python version specification
-├── GEMINI.md                   # Project documentation
-├── README.md                   # Project README
-├── main.py                     # Main entry point
-├── pyproject.toml              # Python project configuration
-├── uv.lock                     # Dependency lock file
-├── configs/                    # Configuration files
-├── data/                       # Data directory
-├── docs/                       # Documentation
-├── models/                     # Model files and checkpoints
-├── outputs/                    # Output files (logs, metrics, predictions)
-├── scripts/                    # Utility scripts
-└── src/                        # Source code
+├── .env                  # Local environment variables
+├── .gitignore
+├── .python-version       # Python version pin
+├── GEMINI.md             # Project notes
+├── README.md             # Project overview and usage
+├── main.py               # Entrypoint/CLI hook
+├── pyproject.toml        # Project config and dependencies
+├── uv.lock               # Locked dependency set
+├── configs/              # Experiment/training configs
+├── data/                 # Raw and processed datasets
+├── docs/                 # Guides and progress logs
+├── models/               # Saved checkpoints
+├── outputs/              # Logs, metrics, figures, predictions
+├── scripts/              # Runner and helper scripts
+├── source_material/      # Reference papers/assignments
+├── src/                  # Source code packages
+└── .venv/                # Local virtual environment (untracked)
 ```
 
-## Detailed Structure
-
-### `/configs/` - Configuration Files
+## Configurations
 
 ```txt
 configs/
-├── .gitkeep                    # Keeps directory in git
-├── base.yaml                   # Base configuration
-└── pytorch.yaml                # PyTorch experiment/training configuration
+├── base.yaml             # Shared/default settings
+├── pytorch.yaml          # PyTorch experiment configuration
+└── tensorflow.yaml       # TensorFlow experiment configuration
 ```
 
-### `/data/` - Data Directory
+## Data layout
 
 ```txt
 data/
-├── raw/                       # Raw data files
-│   ├── .gitkeep
-│   ├── translate.py           # Translation utility script
-│   └── raw-img/               # Raw image files (Italian category names)
-│       ├── cane/
-│       ├── cavallo/
-│       ├── elefante/
-│       ├── farfalla/
-│       ├── gallina/
-│       ├── gatto/
-│       ├── mucca/
-│       ├── pecora/
-│       ├── ragno/
-│       └── scoiattolo/
-└── processed/                 # Processed dataset (English category names)
-    ├── .gitkeep
-    ├── data_summary.json      # Dataset summary information
-    ├── test/                  # Test split
-    │   ├── butterfly/
-    │   ├── cat/
-    │   ├── chicken/
-    │   ├── cow/
-    │   ├── dog/
-    │   ├── elephant/
-    │   ├── horse/
-    │   ├── sheep/
-    │   ├── spider/
-    │   └── squirrel/
-    ├── train/                 # Training split
-    │   ├── butterfly/
-    │   ├── cat/
-    │   ├── chicken/
-    │   ├── cow/
-    │   ├── dog/
-    │   ├── elephant/
-    │   ├── horse/
-    │   ├── sheep/
-    │   ├── spider/
-    │   └── squirrel/
-    └── val/                   # Validation split
-        ├── butterfly/
-        ├── cat/
-        ├── chicken/
-        ├── cow/
-        ├── dog/
-        ├── elephant/
-        ├── horse/
-        ├── sheep/
-        ├── spider/
-        └── squirrel/
+├── raw/                  # Original dataset (Italian class names)
+│   ├── translate.py      # Utility to translate labels
+│   └── raw-img/
+│       ├── cane/ cavallo/ elefante/ farfalla/ gallina/
+│       ├── gatto/ mucca/ pecora/ ragno/ scoiattolo/
+├── processed/            # Cleaned dataset (English class names)
+│   ├── data_summary.json # Dataset stats
+│   ├── train/            # Training split (per-class folders)
+│   ├── val/              # Validation split (per-class folders)
+│   └── test/             # Test split (per-class folders)
 ```
 
-### `/docs/` - Documentation
+## Documentation
 
 ```txt
 docs/
-├── .gitkeep                    # Keeps directory in git
-├── instructions/               # Setup and usage instructions
-│   ├── general-setup-before-PyTorch.md
-│   └── for_PyTorch/
-│       ├── 01_PyTorch_core_implementation.md
-│       └── 02_PyTorch_model_eval_and_metrics_logging.md
-├── project_guide/              # Project guides
-│   └── project_structure.md    # This file
-├── project_progress/           # Project progress tracking
+├── instructions/
+│   ├── evaluation/
+│   │   └── 01_instruction_for_evaluating_trained_models.md
+│   ├── for_PyTorch/
+│   │   ├── general-setup-before-PyTorch.md
+│   │   ├── 01_PyTorch_core_implementation.md
+│   │   └── 02_PyTorch_model_eval_and_metrics_logging.md
+│   └── for_tensorflow/
+│       ├── 01_setting_up_tensorflow_config.md
+│       ├── 01_TF_core_implementation.md
+│       ├── 02_TF_core_full_implementation.md
+│       └── 02_TF_training_and_model_build.md
+├── project_guide/
+│   └── project_structure.md   # This file
+├── project_progress/
 │   ├── phase-0-project-setup-&-data-pre-processing.md
 │   └── progress.md
-└── troubleshooting/            # Troubleshooting references
+└── troubleshooting/
     └── cuda_issues.md
 ```
 
-### `/models/` - Model Files
-
-```txt
-models/
-├── .gitkeep                    # Keeps directory in git
-└── pytorch/                    # Saved PyTorch model checkpoints
-    ├── best_model.pt
-    └── last_model.pt
-```
-
-### `/outputs/` - Output Files
-
-```txt
-outputs/
-├── logs/                       # Training and execution logs
-│   ├── .gitkeep
-│   ├── download_data.log
-│   ├── preprocess_data.log
-│   ├── eval_20251203-002049.log
-│   └── 2025*/train.log         # Multiple timestamped training logs
-├── metrics/                    # Performance metrics
-│   ├── .gitkeep
-│   └── eval_20251203-002049/
-│       ├── best_model_confusion_matrix.png
-│       ├── best_model_metrics.json
-│       ├── last_model_confusion_matrix.png
-│       └── last_model_metrics.json
-└── predictions/                # Model predictions
-    └── .gitkeep
-```
-
-### `/scripts/` - Utility Scripts
+## Scripts
 
 ```txt
 scripts/
-├── .gitkeep                   # Keeps directory in git
-├── __init__.py                # Package marker
-├── download_data.py           # Data downloading script
-├── preprocess_data.py         # Data preprocessing script
-└── pytorch/                   # PyTorch script entrypoints
-    ├── __init__.py
-    └── run_eval.py
+├── download_data.py           # Pulls raw dataset
+├── preprocess_data.py         # Cleans/splits data
+├── evaluate_all_models.py     # Batch evaluation helper
+├── pytorch/
+│   └── run_eval.py            # PyTorch evaluation entrypoint
+└── tensorflow/
+    ├── run.sh                 # Convenience runner
+    ├── run_train.py           # TensorFlow training
+    ├── run_eval.py            # TensorFlow evaluation
+    ├── verify_data.py         # Dataset checks
+    ├── verify_model.py        # Model sanity checks
+    └── verify_eval.py         # Evaluation sanity checks
 ```
 
-### `/src/` - Source Code
+## Source code
 
 ```txt
 src/
-├── common/                    # Common utilities
-│   ├── .gitkeep
-│   ├── paths.py               # Path configurations
-│   └── utils.py               # Utility functions
-├── experiments/               # Experiment code
-│   └── .gitkeep
-├── pytorch/                   # PyTorch training/eval pipeline
-│   ├── __pycache__/           # Bytecode cache
+├── common/
+│   ├── paths.py               # Centralized path helpers
+│   └── utils.py               # Shared utilities
+├── experiments/               # Placeholder for experiment scripts
+├── pytorch/                   # PyTorch pipeline
 │   ├── data.py
 │   ├── eval.py
 │   ├── model.py
 │   ├── train.py
 │   └── transforms.py
-└── tests/                     # Test files
-    └── .gitkeep
+├── tensorflow/                # TensorFlow pipeline
+│   ├── data.py
+│   ├── eval.py
+│   ├── model.py
+│   ├── train.py
+│   ├── transforms.py
+│   └── utils.py
+└── tests/                     # Test scaffolding (currently placeholder)
 ```
 
-## Directory Purposes
+## Models
 
-| Directory | Purpose |
-|-----------|---------|
-| `configs/` | Configuration files for experiments and model parameters |
-| `data/` | Storage for datasets (ImageNet data with raw and processed splits) |
-| `docs/` | All project documentation and guides |
-| `models/` | Trained model checkpoints and model definitions |
-| `outputs/` | Results, logs, metrics, and predictions from experiments |
-| `scripts/` | Utility scripts for data preparation and common tasks |
-| `src/` | Main source code for the project |
+```txt
+models/
+├── pytorch/
+│   ├── best_model.pt
+│   └── last_model.pt
+└── tf/
+    ├── best_model.keras
+    ├── last_model.keras
+    └── test_model.keras
+```
+
+## Outputs and artifacts
+
+```txt
+outputs/
+├── figures/                       # Visualizations per evaluation
+│   └── eval_<timestamp>/
+│       ├── confusion_matrix_best_model_pytorch.png
+│       ├── confusion_matrix_best_model_tensorflow.png
+│       ├── per_class_accuracy_best_model_[pytorch|tensorflow].png
+│       ├── roc_curve_best_model_[pytorch|tensorflow].png
+│       └── sample_predictions_best_model_[pytorch|tensorflow].png
+├── logs/                          # Execution + training logs
+│   ├── download_data.log
+│   ├── preprocess_data.log
+│   ├── eval_<timestamp>.log
+│   └── <timestamp>/train.log      # Training sessions (timestamped folders)
+├── metrics/                       # Aggregated metrics
+│   ├── eval_<timestamp>/          # PyTorch + TensorFlow eval outputs
+│   │   ├── best_model_pytorch_[train|val|test]_metrics.json
+│   │   └── best_model_tensorflow_[train|val|test]_metrics.json
+│   └── tf/<timestamp>/            # TensorFlow-only eval artifacts
+│       ├── confusion_matrix.png
+│       └── metrics.json
+├── predictions/
+│   └── predictions_best_model_[pytorch|tensorflow]_<timestamp>.csv
+└── tf_logs/                       # TensorFlow training/eval logs (CSV/log)
+    ├── eval_<timestamp>.log
+    └── train_<timestamp>.csv
+```
+
+## Reference material
+
+```txt
+source_material/
+├── 1_Imagenet-classification-with-deep-convolutional-neural-networks.pdf
+└── MA5852 Assignment 3 Brisbane.pdf
+```
 
 ## Notes
 
-- `.gitkeep` files are used to maintain empty directories in version control.
-- The `.venv` directory is excluded from commits (local virtual environment).
-- The `source_material` directory contains reference papers/assignments.
-- The `data/` directory contains both raw images (Italian labels) and processed splits (English labels).
-- Processed data is organized into train/test/validation splits by class.
-- All other directories and files are included in this structure documentation.
+- `.gitkeep` files keep otherwise-empty directories in version control.
+- Timestamped run folders follow the pattern `<YYYYMMDD-HHMMSS>`.
+- `.venv/` is local-only and should not be committed.
+- Raw images use Italian labels; processed splits use English labels across train/val/test.
