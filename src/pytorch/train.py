@@ -12,12 +12,23 @@ from src.pytorch.model import create_model
 
 def train_model(cfg, model, loaders):
     """
-    Trains the model.
-
-    Args:
-        cfg (dict): Configuration dictionary.
-        model: PyTorch model.
-        loaders: Tuple of (train_loader, val_loader, test_loader).
+    Train a PyTorch model using the provided configuration and data loaders.
+    
+    Trains `model` for the configured number of epochs, evaluates on the validation loader each epoch, logs progress to a timestamped outputs log, and saves both the latest and best model state_dicts to the project models directory. The function selects CUDA if available, then MPS, otherwise CPU.
+    
+    Parameters:
+        cfg (dict): Configuration dictionary. Required keys:
+            - 'optimizer.name' (str): Optimizer identifier, e.g. 'adam' (otherwise SGD is used).
+            - 'optimizer.weight_decay' (numeric): Weight decay for the optimizer.
+            - 'training.learning_rate' (numeric): Learning rate.
+            - 'training.epochs' (int): Number of training epochs.
+            - 'loss.name' (str): Loss identifier, e.g. 'cross_entropy'.
+        model: A PyTorch nn.Module instance to be trained; its parameters will be moved to the selected device.
+        loaders (tuple): (train_loader, val_loader, test_loader). Only the train and val loaders are used.
+    
+    Side effects:
+        - Writes training logs to OUTPUTS_DIR/logs/<timestamp>/train.log and streams to console.
+        - Saves model state_dict to MODELS_DIR/pytorch/last_model.pt each epoch and MODELS_DIR/pytorch/best_model.pt when validation accuracy improves.
     """
     train_loader, val_loader, _ = loaders
 
@@ -106,6 +117,11 @@ def train_model(cfg, model, loaders):
     logging.info("Training complete.")
 
 def main_pytorch():
+    """
+    Orchestrates configuration loading, data loader creation, model construction, and starts the PyTorch training run.
+    
+    Loads the project configuration (expected to merge base settings with the PyTorch-specific config), builds training/validation/test dataloaders, instantiates the model, and invokes the training routine with those objects.
+    """
     from src.common.utils import load_config
 
     # Load config

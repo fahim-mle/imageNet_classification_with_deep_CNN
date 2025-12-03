@@ -19,6 +19,14 @@ def setup_logging(log_file="app.log"):
     return logging.getLogger("ImageNet_CNN")
 
 def seed_everything(seed=42):
+    """
+    Set the global random seed for Python, NumPy, PyTorch, and TensorFlow to make experimental runs reproducible.
+    
+    This function sets the Python random seed, the PYTHONHASHSEED environment variable, NumPy's RNG seed, PyTorch CPU and CUDA seeds, and TensorFlow's seed. It also configures PyTorch's cuDNN to deterministic mode and disables its benchmark mode to reduce nondeterminism across runs.
+    
+    Parameters:
+        seed (int): Integer seed used to initialize all random number generators. Default is 42.
+    """
     random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
     np.random.seed(seed)
@@ -33,13 +41,15 @@ from pathlib import Path
 
 def load_config(config_path):
     """
-    Loads a config file and merges it with base.yaml.
-
-    Args:
-        config_path (str): Path to the specific config file.
-
+    Load a YAML configuration and merge it into the project's base configuration.
+    
+    Performs a deep recursive merge: mappings from the provided config override or extend entries from configs/base.yaml. Nested dictionaries are merged recursively; non-dict values are replaced by the specific config.
+    
+    Parameters:
+        config_path (str | Path): Path to the YAML config file whose values will override or extend the base config.
+    
     Returns:
-        dict: Merged configuration.
+        dict: The resulting merged configuration dictionary.
     """
     # Load base config
     base_config_path = Path("configs/base.yaml")
@@ -56,6 +66,16 @@ def load_config(config_path):
     # Let's do a deep merge for 'dataset', 'training', 'model', etc.
 
     def deep_merge(base, update):
+        """
+        Recursively merge values from `update` into `base`.
+        
+        Parameters:
+            base (dict): Dictionary to merge into. This dictionary is modified in place.
+            update (dict): Dictionary whose keys and values override or extend `base`.
+        
+        Returns:
+            dict: The merged dictionary (the same object as `base`) where nested dictionaries are merged recursively and non-dictionary values from `update` replace those in `base`.
+        """
         for k, v in update.items():
             if isinstance(v, dict) and k in base and isinstance(base[k], dict):
                 deep_merge(base[k], v)

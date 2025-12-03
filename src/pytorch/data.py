@@ -7,13 +7,21 @@ from src.common.paths import DATA_DIR
 
 def get_dataloaders(cfg):
     """
-    Creates and returns dataloaders for train, val, and test sets.
-
-    Args:
-        cfg (dict): Configuration dictionary.
-
+    Create DataLoader objects for training, validation, and test image datasets according to config.
+    
+    The function locates the dataset directory (prefers cfg['dataset']['processed_dir'] and falls back to cfg['dataset']['raw_dir']), supports either pre-split folders named 'train', 'val', and 'test' or a single folder that is split according to configured ratios, applies split-specific transforms, and returns DataLoaders configured with the requested batch size.
+    
+    Parameters:
+        cfg (dict): Configuration containing:
+            - dataset.image_size (int): Target image size passed to get_transforms.
+            - dataset.processed_dir (str): Preferred dataset directory path.
+            - dataset.raw_dir (str): Fallback dataset directory path.
+            - dataset.split_ratios (dict): Ratios for 'train', 'val', 'test' used when splitting a single folder.
+            - dataset.seed (int): RNG seed for reproducible splits.
+            - training.batch_size (int): Batch size for all returned DataLoaders.
+    
     Returns:
-        tuple: (train_loader, val_loader, test_loader)
+        tuple: (train_loader, val_loader, test_loader) — DataLoader instances for the training, validation, and test splits.
     """
     image_size = cfg['dataset']['image_size']
     batch_size = cfg['training']['batch_size']
@@ -95,16 +103,38 @@ def get_dataloaders(cfg):
         # Let's use a helper class to apply transforms
         class TransformedSubset(torch.utils.data.Dataset):
             def __init__(self, subset, transform=None):
+                """
+                Initialize a TransformedSubset that applies an optional transform to items retrieved from an existing subset.
+                
+                Parameters:
+                    subset (torch.utils.data.Subset): The underlying subset whose items will be accessed.
+                    transform (callable, optional): A callable applied to each retrieved sample (e.g., an image transform). If `None`, items are returned unchanged.
+                """
                 self.subset = subset
                 self.transform = transform
 
             def __getitem__(self, index):
+                """
+                Return the (input, target) pair from the underlying subset at the given index, applying the subset's transform to the input if one is set.
+                
+                Parameters:
+                	index (int): Index of the sample to retrieve.
+                
+                Returns:
+                	(tuple): A tuple (x, y) where `x` is the input (after applying `self.transform` if present) and `y` is the corresponding target/label.
+                """
                 x, y = self.subset[index]
                 if self.transform:
                     x = self.transform(x)
                 return x, y
 
             def __len__(self):
+                """
+                Return the number of items in the wrapped subset.
+                
+                Returns:
+                    int: Number of samples contained in the subset.
+                """
                 return len(self.subset)
 
         train_dataset = TransformedSubset(train_subset, train_transforms)

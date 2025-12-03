@@ -8,14 +8,16 @@ from src.common.paths import OUTPUTS_DIR
 
 def load_trained_model(cfg, model_path):
     """
-    Loads a trained model from the specified path.
-
-    Args:
-        cfg (dict): Configuration dictionary.
-        model_path (str): Path to the saved model weights.
-
+    Create and return a model constructed from `cfg` with weights loaded from `model_path`.
+    
+    The returned model is moved to the selected device (CUDA if available, else MPS if available, else CPU) and set to evaluation mode.
+    
+    Parameters:
+        cfg (dict): Configuration used to construct the model.
+        model_path (str): Filesystem path to the saved model state dict.
+    
     Returns:
-        model: Loaded PyTorch model in eval mode.
+        model (torch.nn.Module): Model with weights loaded, moved to the device, and in eval mode.
     """
     device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
@@ -28,15 +30,17 @@ def load_trained_model(cfg, model_path):
 
 def evaluate_model(model, test_loader, device):
     """
-    Evaluates the model and returns detailed metrics.
-
-    Args:
-        model: PyTorch model.
-        test_loader: DataLoader.
-        device: Device to run evaluation on.
-
+    Evaluate a classification model on the provided DataLoader and compute performance and latency metrics.
+    
     Returns:
-        dict: Dictionary containing metrics.
+        dict: Mapping with keys:
+            - "accuracy" (float): Overall classification accuracy (correct / total).
+            - "per_class_accuracy" (List[float]): Per-class accuracy values in the same order as confusion_matrix rows.
+            - "confusion_matrix" (List[List[int]]): Square confusion matrix as a nested list (rows=true labels, columns=predicted labels).
+            - "avg_inference_time" (float): Average inference time per sample in seconds.
+            - "avg_batch_time" (float): Average inference time per batch in seconds.
+            - "throughput" (float): Processed samples per second (total_samples / total inference time).
+            - "total_samples" (int): Number of samples evaluated.
     """
     model.eval()
     correct = 0
@@ -96,7 +100,12 @@ def evaluate_model(model, test_loader, device):
 
 def setup_eval_logging(timestamp):
     """
-    Sets up logging for evaluation.
+    Configure evaluation logging to write to a timestamped file and to the console.
+    
+    Creates an OUTPUTS_DIR/logs directory if missing, configures the root logger to write INFO-level messages to a file named `eval_{timestamp}.log` with a timestamped message format, resets existing handlers, and adds an INFO-level console (stream) handler.
+    
+    Parameters:
+        timestamp (str): Identifier (typically a timestamp) appended to the log filename.
     """
     log_dir = OUTPUTS_DIR / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
