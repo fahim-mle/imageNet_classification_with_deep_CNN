@@ -220,3 +220,10 @@ data/processed/*
 
 # models
 *.pt
+*.keras
+*.h5
+models/tf/
+
+# outputs
+outputs/tf_logs/
+outputs/metrics/

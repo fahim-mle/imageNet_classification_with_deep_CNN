@@ -1,7 +1,7 @@
 import argparse
 import sys
-from src.common.utils import load_config
 import os
+from src.common.utils import load_config
 
 def main():
     """
@@ -32,6 +32,26 @@ def main():
         if not args.train and not args.eval:
             print("No mode selected. Use --train or --eval.")
             parser.print_help()
+
+    elif args.framework == "tensorflow":
+        cfg = load_config("configs/tensorflow.yaml")
+
+        if args.train:
+            print("Starting TensorFlow Training...")
+            from src.tensorflow.train import train_model
+            train_model(cfg)
+
+        if args.eval:
+            print("Starting TensorFlow Evaluation...")
+            from src.common.paths import MODELS_DIR
+            from src.tensorflow.eval import evaluate_model
+
+            # Default to best model
+            model_path = os.path.join(MODELS_DIR, "tf", "best_model.keras")
+            if os.path.exists(model_path):
+                evaluate_model(cfg, model_path)
+            else:
+                print(f"No model found at {model_path}. Please train first.")
 
     else:
         print(f"Framework {args.framework} not implemented yet.")
